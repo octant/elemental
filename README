@@ -1,0 +1,91 @@
+Inspired by Wayne E. Seguin's ps1_functions at https://github.com/wayneeseguin/rvm/blob/master/contrib/ps1_functions
+
+Creates a "scaffolded" bash prompt comprised of "elements" from a list of
+arguments.
+
+* Usage
+
+elemental [Options]
+
+Options
+
+	--braces					- Character(s) that surround the elements in the prompt (default ( ))
+	--delimiter				- Character(s) between the braces (default .)
+	--div							- Outputs a string the width of the console (default none)
+	--divchar					- Character that the divider will be composed of (default .)
+	--elem						- Elements comprising the prompt and MUST be the last argument (default \u \h \w)
+	--prompt					- Prompt char(s) (default # for root, and $ for everyone else)			
+	--scaffoldcolor		- Color of the div, braces, delimiters and prompt (default none)
+	--textcolor				- Color of the text between braces (default none)
+
+* To use this script
+
+	1. Download it (you can rename it to .elemental to hide it)
+	2. Add the following to your .bash_profile or .profile file
+			[[ -s "$HOME/.elemental" ]] && . "$HOME/.elemental" # Load Elemental
+	3. To the same file add the elemental command to set up your prompt
+			elemental --scaffoldcolor 36 --delimiter "_" --elem \\\\u \\\\h
+	4. Finally, source your .bash_profile/.profile like so
+			. ~/.bash_profile
+
+* Examples
+
+- Basic
+
+elemental --elem foo bar 
+=> (foo)-(bar)$
+
+Not very interesting, but you can use backslash escaped special characters to insert
+variable information.
+
+- Special Characters
+
+elemental --elem \\\\u \\\\h
+=> (username)-(hostname)$ 
+
+The backslashes are to ensure the special characters \u and \h make it
+through to the final expansion. The string will be interpreted as "\\h \\u"
+from the command line or .bash_profile, then as "\u \h" in the script when
+it is passed as an argument.
+
+- Inserting Newlines
+
+You can use newlines in your list of elements as well to have a multiline
+prompt.
+
+elemental --elem \\\\u \\\\h \\\\w \\\\n
+=> (username)-(hostname)-(~/path/you/are/in)
+$ 
+
+- Color
+
+You can add color.
+
+elemental --scaffoldcolor 34 --textcolor 32 --elem \\\\u \\\\h \\\\w \\\\n
+=> same as above, but with color.
+
+- Changing the scaffolding
+
+You can change the delimiters and braces.
+
+elemental --delimiter "_" --braces "[" "]" --elem \\\\u \\\\h \\\\w
+=> [username]_[hostname]_[~/path/you/are/in]$
+
+- Changing the Prompt
+
+You can change the prompt.
+
+elemental --prompt "-\>" --elem \\\\u \\\\h \\\\w
+=> (username)-(hostname)-(~/path/you/are/in)->
+
+Note that you must escape the ">" character as it has special meaning.
+
+- Things to watch out for
+
+	1. elem option must be last
+	2. prompt option can not be empty
+	3. Many characters have special meaning and must be escaped with a backslash (\)
+
+
+
+

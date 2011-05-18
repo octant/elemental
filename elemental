@@ -1,0 +1,131 @@
+#!/usr/bin/env bash
+
+# Color text
+# eg. e_color "text" 32
+# => "text"
+# the text is colored green
+e_color()
+{
+	printf "%s" "\[\033[${2}m\]${1}\[\033[0m\]"
+}
+
+# Surround text
+# eg. e_surround "this text" "|" "|"
+# => "|this text|"
+e_surround()
+{
+	printf "%s" "${2}${1}${3}"
+}
+
+# Create a "section"
+#eg. e_section "this text" 32 "|" "|" 35
+# => "|this text|"
+# the text is green and the surrounding characters are pink
+e_section()
+{
+	local text=$1 text_color=$2 left_side=$3 right_side=$4 surround_color=$5
+	
+	printf "%s" "$(e_surround \
+		$(e_color ${text} ${text_color}) \
+		$(e_color ${left_side} ${surround_color}) \
+		$(e_color ${right_side} ${surround_color}))"
+}
+
+# Space delimited string turned in to "sections" separated by delimiters
+#eg. e_scaffold "This\ is\ a\ test"
+# => (this)-(is)-(a)-(test)
+e_scaffold()
+{
+	while [[ $# -gt 0 ]] ; do
+		local text="$1" ; shift
+		
+		if [[ $text == "\n" ]] ; then
+			printf "%s" "\n"
+		else
+			printf "%s" "$(e_section ${text} ${textcolor} \
+				${lbrace} ${rbrace} ${scaffoldcolor})"
+			
+			if [[ $# -gt 0 && $1 != "\n" ]] ; then
+				printf "%s" "$(e_color ${delimiter} ${scaffoldcolor})"
+			fi
+		fi
+	done
+}
+
+# Create a string of divchar as wide as the console with
+e_div()
+{	
+	local div_string=""
+	
+	if [[ $div -gt 0 ]] ; then
+		
+		for((i=1;i<=$(tput cols);i++)); do
+			div_string+="${divchar}"
+		done
+		
+		div_string+="\n"
+		
+		printf "%s" "$(e_color ${div_string} ${scaffoldcolor})"
+	fi
+}
+
+e_update()
+{
+	local elem="\u \h \w"
+	local prompt=`if [[ $UID -eq 0 ]]; then printf "#"; else printf "$"; fi`
+	local delimiter="-"
+	local lbrace="("
+	local rbrace=")"
+	local textcolor=38
+	local scaffoldcolor=38
+	local div=0
+	local divchar="."
+	
+	while [[ $# -gt 0 ]] ; do
+		local token="$1" ; shift
+		
+		case "$token" in
+			--elem)
+			elem="$@"
+			shift
+			;;
+			--prompt)
+			prompt="$1"
+			;;
+			--delimiter)
+			delimiter="$1"
+			shift
+			;;
+			--braces)
+			lbrace="$1"
+			rbrace="$2"
+			shift
+			;;
+			--textcolor)
+			textcolor="$1"
+			shift
+			;;
+			--scaffoldcolor)
+			scaffoldcolor="$1"
+			shift
+			;;
+			--divchar)
+			divchar="$1"
+			;;
+			--div)
+			div=1
+			;;
+			*)
+			true # Ignore everything else.
+			;;
+		esac
+	done
+	
+	PS1="$(e_div)$(e_scaffold ${elem})$(e_color ${prompt} ${scaffoldcolor}) "
+	
+}
+
+elemental()
+{
+	PROMPT_COMMAND="e_update $@"
+}
