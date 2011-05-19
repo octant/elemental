@@ -9,14 +9,14 @@ elemental [Options]
 
 Options
 
-	--braces		- Character(s) that surround the elements in the prompt (default ( ))
-	--delimiter		- Character(s) between the braces (default .)
-	--div			- Outputs a string the width of the console (default none)
-	--divchar		- Character that the divider will be composed of (default .)
-	--elem			- Elements comprising the prompt and MUST be the last argument (default \u \h \w)
-	--prompt		- Prompt char(s) (default # for root, and $ for everyone else)			
-	--scaffoldcolor		- Color of the div, braces, delimiters and prompt (default none)
-	--textcolor		- Color of the text between braces (default none)
+	--braces	  - Character(s) that surround the elements in the prompt (default ( ))
+	--delimiter	  - Character(s) between the braces (default .)
+	--div		  - Outputs a string the width of the console (default none)
+	--divchar	  - Character that the divider will be composed of (default .)
+	--elem		  - Elements comprising the prompt and MUST be the last argument (default \u \h \w)
+	--prompt	  - Prompt char(s) (default # for root, and $ for everyone else)			
+	--scaffoldcolor	  - Color of the div, braces, delimiters and prompt (default none)
+	--textcolor	  - Color of the text between braces (default none)
 
 * To use this script
 
