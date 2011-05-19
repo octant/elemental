@@ -52,7 +52,7 @@ e_scaffold()
 	done
 }
 
-# Create a string of divchar as wide as the console with
+# Create a string of divchar as wide as the console
 e_div()
 {	
 	local div_string=""
