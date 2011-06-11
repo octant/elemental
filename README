@@ -20,10 +20,10 @@ Options
 
 * To use this script
 
-	1. Download it (you can rename it to .elemental to hide it)
-	2. Add the following to your .bash_profile or .profile file
-	   [[ -s "$HOME/.elemental" ]] && . "$HOME/.elemental" # Load Elemental
-	3. To the same file add the elemental command to set up your prompt
+	1. Download it to your home (~) directory (you can prefix it with a '.' to hide it)
+	2. Add the following to your .bash_profile or .profile file:
+	   [[ -s "$HOME/.elemental" ]] && . "$HOME/.elemental"
+	3. To the same file add the elemental command to set up your prompt:
 	   elemental --scaffoldcolor 36 --delimiter "_" --elem \\\\u \\\\h
 	4. Finally, source your .bash_profile/.profile like so
 	   . ~/.bash_profile
